@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Know U | Habit Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="auth-body">
+    <div class="glass-panel auth-container">
+        <div class="logo">
+            <h1>Know U</h1>
+            <p>Master Your Habits. Master Yourself.</p>
+        </div>
+
+        <div id="login-form" class="form-section">
+            <h2>Sign In</h2>
+            <input type="text" id="login-username" placeholder="Username" />
+            <input type="password" id="login-password" placeholder="Password" />
+            <button onclick="login()">Enter</button>
+            <p class="switch-link" onclick="toggleAuth(false)">Don't have an account? Sign up</p>
+        </div>
+
+        <div id="register-form" class="form-section hidden">
+            <h2>Sign Up</h2>
+            <input type="text" id="reg-username" placeholder="Username" />
+            <input type="email" id="reg-email" placeholder="Email" />
+            <input type="password" id="reg-password" placeholder="Password" />
+            <button onclick="register()">Join Setup</button>
+            <p class="switch-link" onclick="toggleAuth(true)">Already have an account? Sign in</p>
+        </div>
+
+        <div id="auth-error" class="error-msg hidden"></div>
+    </div>
+    <script src="js/app.js"></script>
+    <script>
+        // Check if user is already logged in
+        if (localStorage.getItem("token")) {
+            window.location.href = "dashboard.html";
+        }
+
+        function toggleAuth(isLogin) {
+            document.getElementById("login-form").classList.toggle("hidden", !isLogin);
+            document.getElementById("register-form").classList.toggle("hidden", isLogin);
+            document.getElementById("auth-error").classList.add("hidden");
+        }
+    </script>
+</body>
+
+</html>

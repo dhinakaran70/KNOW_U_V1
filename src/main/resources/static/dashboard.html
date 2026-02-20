@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Know U</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js for Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Puter.js for AI -->
+    <script src="https://js.puter.com/v2/"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="dashboard-body">
+    <nav class="navbar glass-panel">
+        <div class="nav-brand">Know U</div>
+        <div class="user-stats">
+            <span id="nav-level" class="badge">Level --</span>
+            <span id="nav-xp">-- XP</span>
+            <button onclick="logout()" class="btn-outline">Logout</button>
+        </div>
+    </nav>
+
+    <div class="dashboard-grid">
+        <!-- Main Habits Panel -->
+        <main class="glass-panel feature-panel">
+            <header class="panel-header">
+                <h2>Your Habits</h2>
+                <button onclick="openModal('habit-modal')" class="btn-primary">+ New Habit</button>
+            </header>
+            <div id="habits-list" class="habits-list">
+                <!-- Habits dynamically generated -->
+            </div>
+        </main>
+
+        <!-- Right Side: AI Assistant & Insights -->
+        <aside class="side-panel">
+            <div class="glass-panel ai-panel">
+                <header class="panel-header ai-header">
+                    <h2>AI Assistant</h2>
+                    <button class="btn-icon" onclick="getSmartInsights()" title="Get Smart Insight">💡</button>
+                </header>
+                <div id="chat-window" class="chat-window">
+                    <div class="chat-bubble ai-bubble">Hi <span id="chat-username"></span>! I'm here to help you stay
+                        consistent. How are you doing today?</div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="Ask for advice..."
+                        onkeypress="handleChatEnter(event)" />
+                    <button onclick="sendChatMessage()">Send</button>
+                </div>
+            </div>
+
+            <div class="glass-panel analytics-panel mt-4">
+                <h2>Analytics</h2>
+                <div class="chart-container" style="position: relative; height:200px; width:100%; margin-top: 15px;">
+                    <canvas id="habitChart"></canvas>
+                </div>
+                <!-- Heatmap kept for future use if needed -->
+                <p style="margin-top: 15px; font-size: 0.9em; color: var(--text-muted)">Completion Heatmap (Simulated)
+                </p>
+                <div id="heatmap" class="heatmap-grid" style="margin-top: 5px;">
+                    <!-- Dynamic heatmap boxes -->
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Add Habit Modal -->
+    <div id="habit-modal" class="modal hidden">
+        <div class="modal-content glass-panel">
+            <h3>Add New Habit</h3>
+            <input type="text" id="habit-title" placeholder="Habit Title (e.g. Morning Run)" />
+            <input type="text" id="habit-desc" placeholder="Description (Optional)" />
+            <select id="habit-freq">
+                <option value="DAILY">Daily</option>
+                <option value="WEEKLY">Weekly</option>
+            </select>
+            <div class="modal-actions">
+                <button onclick="closeModal('habit-modal')" class="btn-outline">Cancel</button>
+                <button onclick="createHabit()" class="btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Habit Modal -->
+    <div id="edit-habit-modal" class="modal hidden">
+        <div class="modal-content glass-panel">
+            <h3>Edit Habit</h3>
+            <input type="hidden" id="edit-habit-id" />
+            <input type="text" id="edit-habit-title" placeholder="Habit Title" />
+            <input type="text" id="edit-habit-desc" placeholder="Description" />
+            <select id="edit-habit-freq">
+                <option value="DAILY">Daily</option>
+                <option value="WEEKLY">Weekly</option>
+            </select>
+            <div class="modal-actions">
+                <button onclick="closeModal('edit-habit-modal')" class="btn-outline">Cancel</button>
+                <button onclick="updateHabit()" class="btn-primary">Update</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        // Check Auth
+        if (!localStorage.getItem("token")) {
+            window.location.href = "index.html";
+        }
+
+        // On Load
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("chat-username").innerText = localStorage.getItem("username") || "User";
+            loadDashboard();
+        });
+    </script>
+</body>
+
+</html>
